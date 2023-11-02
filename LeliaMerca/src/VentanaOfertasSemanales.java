@@ -57,14 +57,14 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
         }
         panelPrincipal.add(panelOfertas, BorderLayout.CENTER);
 
-        panelCarrito = new JPanel();
+        panelCarrito = new JPanel(new GridLayout(1, 2));
         areaCesta = new JTextArea("PEDIDO ACTUAL");
         scrollPane = new JScrollPane(areaCesta);
-
-        panelPrincipal.add(scrollPane, BorderLayout.EAST);
-
+        panelCarrito.add(scrollPane);
+        
         lblTotal = new JLabel("Total 0.00 $");
-
+        panelCarrito.add(lblPrecio);
+        panelPrincipal.add(panelCarrito, BorderLayout.EAST);
         // Panel inferior para la cantidad a comprar y botones
         JPanel panelInferior = new JPanel();
 
