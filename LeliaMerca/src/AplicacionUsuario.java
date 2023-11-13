@@ -17,6 +17,7 @@ public class AplicacionUsuario {
         private Random random;
         private Producto[] array_productos;
         private String tipoUsuario;
+
         public void ejecutar() {
                 listaArticulos();
                 mostrarVentanaInicioSesion();
@@ -28,8 +29,9 @@ public class AplicacionUsuario {
         public void cancelar() {
                 System.exit(1);
         }
-        public void setTipoUsuario(String tipoUsuario){
-                this.tipoUsuario=tipoUsuario;
+
+        public void setTipoUsuario(String tipoUsuario) {
+                this.tipoUsuario = tipoUsuario;
         }
 
         public void mostrarVentanaPrincipal(String tipoUsuario) {
@@ -43,7 +45,7 @@ public class AplicacionUsuario {
 
         public void mostrarVentanaInicioSesion() {
                 ventanaInicioSesion = new VentanaInicioSesion(this);
-                ventanaInicioSesion.setSize(600, 400);
+                ventanaInicioSesion.setSize(500, 500);
                 ventanaInicioSesion.setVisible(true);
                 ventanaInicioSesion.setResizable(false);
                 ventanaInicioSesion.setLocationRelativeTo(null);
@@ -51,7 +53,7 @@ public class AplicacionUsuario {
         }
 
         public void btnVerOfertasSemanales(String nombreUsuario) {
-
+                mostrarVentanaOfertasSemanales(nombreUsuario);
         }
 
         public void btnVerCupones(String nombreUsuario) {
@@ -67,9 +69,7 @@ public class AplicacionUsuario {
                 ventanaOfertasSemanales.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
                 for (Producto p : listaOfertas) {
-                        JButton button_articulo = new JButton(p.getNombre());
-                        button_articulo.setName(p.getNombre());
-                        System.out.println("asdasd"+p.getImagen());
+                        JButton button_articulo = new JButton();
                         button_articulo.setIcon(p.getImagen());
                         button_articulo.addActionListener(ventanaOfertasSemanales);
                         p.setButton_producto(button_articulo);
@@ -79,8 +79,7 @@ public class AplicacionUsuario {
         }
 
         public void mostrarVentanaCupones(String tipoUsuario) {
-                ventanaCupon = new VentanaCupon(this,tipoUsuario);
-               
+                ventanaCupon = new VentanaCupon(this, tipoUsuario);
 
         }
 
@@ -152,7 +151,8 @@ public class AplicacionUsuario {
                                         new ImageIcon("LeliaMerca/src/productosImg/galletas_chocolate.jpeg"), 0, 0, 0));
                         listaOfertas
                                         .add(new Producto("Café Molido", 4.99, "Café molido de Colombia.",
-                                                        new ImageIcon("LeliaMerca/src/productosImg/cafe_molido.jpeg"), 0,
+                                                        new ImageIcon("LeliaMerca/src/productosImg/cafe_molido.jpeg"),
+                                                        0,
                                                         0, 0));
                         listaOfertas.add(
                                         new Producto("Fresas", 2.99, "Fresas frescas de la región.",

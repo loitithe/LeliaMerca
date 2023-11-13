@@ -11,11 +11,12 @@ public class Producto {
     private double descuento;
     private JButton button_producto;
     private String format = "%-10.10s (%d uds):\t%.2f ";
+
     public Producto() {
     }
 
     public Producto(String nombre, double precio, String descripcion, ImageIcon imagen, int cantidad,
-            double precioTotal, double descuento ){
+            double precioTotal, double descuento) {
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
@@ -78,14 +79,14 @@ public class Producto {
     }
 
     public void setPrecioTotal(double precioTotal) {
-        double precioConDescuento = precioTotal*(1-getDescuento());
-        this.precioTotal=precioConDescuento;
+        double precioConDescuento = precioTotal * (1 - getDescuento());
+        this.precioTotal = precioConDescuento;
     }
 
     @Override
     public String toString() {
         return String.format(format, this.getNombre(), this.getCantidad(),
-        this.getPrecioTotal());
+                this.getPrecioTotal());
     }
 
     public JButton getButton_producto() {

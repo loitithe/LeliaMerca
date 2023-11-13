@@ -1,6 +1,11 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
@@ -8,6 +13,7 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +37,7 @@ public class VentanaInicioSesion extends JFrame implements ActionListener {
     private JButton btnIniciarSesion;
     private JButton btnCancelar;
     private AplicacionUsuario app;
+    private JPanel panelSur;
 
     public VentanaInicioSesion(AplicacionUsuario app) {
         this.app = app;
@@ -50,7 +57,7 @@ public class VentanaInicioSesion extends JFrame implements ActionListener {
 
         }
         if (btn == btnCancelar) {
-
+            this.dispose();
         }
     }
 
@@ -69,35 +76,15 @@ public class VentanaInicioSesion extends JFrame implements ActionListener {
     }
 
     public void initComponents() {
-        contentPane = new JPanel(new GridBagLayout());
+        contentPane = new JPanelFondo();
         setContentPane(contentPane);
-        GridBagConstraints c = new GridBagConstraints();
-
+        panelSur = new JPanel(new GridLayout(2, 10));
         lblUsuario = new JLabel("Usuario");
-        c.gridx = 0;
-        c.gridy = 0;
-        contentPane.add(lblUsuario, c);
 
         lblContrasena = new JLabel("Contrasena");
-        c.gridx = 0;
-        c.gridy = 1;
-        contentPane.add(lblContrasena, c);
-
         textoUsuario = new JTextField(10);
-        c.gridx = 1;
-        c.gridy = 0;
-        contentPane.add(textoUsuario, c);
-
         textoContrasena = new JTextField(10);
-        c.gridx = 1;
-        c.gridy = 1;
-        contentPane.add(textoContrasena, c);
-
-        lblTipoUsuario = new JLabel("Tipo de usuario");
-        c.gridx = 0;
-        c.gridy = 2;
-        contentPane.add(lblTipoUsuario, c);
-
+        lblTipoUsuario = new JLabel("");
         grupoTiposUsuario = new ButtonGroup();
         radio_clienteEsporadico = new JRadioButton("Esporadico");
         radio_clienteClub = new JRadioButton("Club");
@@ -106,28 +93,44 @@ public class VentanaInicioSesion extends JFrame implements ActionListener {
         grupoTiposUsuario.add(radio_clienteClub);
         grupoTiposUsuario.add(radio_clienteEsporadico);
         grupoTiposUsuario.add(radio_clientePremium);
-        c.gridx = 0;
-        c.gridy = 3;
-        contentPane.add(radio_clienteClub, c);
-        c.gridx = 1;
-        c.gridy = 3;
-        contentPane.add(radio_clienteEsporadico, c);
-        c.gridx = 2;
-        c.gridy = 3;
-        contentPane.add(radio_clientePremium, c);
 
         btnIniciarSesion = new JButton("Inicio");
         btnIniciarSesion.addActionListener(this);
-        c.gridx = 0;
-        c.gridy = 4;
-        contentPane.add(btnIniciarSesion, c);
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(this);
-        c.gridx = 1;
-        c.gridy = 4;
-        contentPane.add(btnCancelar, c);
+
+        panelSur.add(lblUsuario);
+        panelSur.add(textoUsuario);
+        panelSur.add(lblContrasena);
+        panelSur.add(textoContrasena);
+        panelSur.add(lblTipoUsuario);
+        panelSur.add(radio_clienteClub, BorderLayout.SOUTH);
+        panelSur.add(radio_clienteEsporadico, BorderLayout.SOUTH);
+        panelSur.add(radio_clientePremium, BorderLayout.SOUTH);
+        panelSur.add(btnIniciarSesion, BorderLayout.SOUTH);
+
+        panelSur.add(btnCancelar, BorderLayout.SOUTH);
+
+        contentPane.add(panelSur, BorderLayout.SOUTH);
+    }
+
+}
+
+class JPanelFondo extends JPanel {
+    private Image imagen;
+
+    JPanelFondo() {
+        setLayout(new BorderLayout());
 
     }
 
+    @Override
+    public void paint(Graphics g) {
+        Toolkit t = Toolkit.getDefaultToolkit();
+        imagen = t.getImage("LeliaMerca\\src\\productosImg\\fondosupermarket.png");
+        g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+        setOpaque(false);
+        super.paint(g);
+    }
 }

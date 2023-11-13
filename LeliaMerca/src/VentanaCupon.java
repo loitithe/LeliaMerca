@@ -14,7 +14,7 @@ public class VentanaCupon extends JFrame {
     public VentanaCupon(AplicacionUsuario app, String tipoUsuario) {
         super("Cupones");
         this.app = app;
-        this.tipoUsuario=tipoUsuario;
+        this.tipoUsuario = tipoUsuario;
         setLayout(new GridLayout(2, 4));
 
         // Crear botones con interrogantes
@@ -35,15 +35,15 @@ public class VentanaCupon extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton boton = (JButton) e.getSource();
-            if (intentos > 0) {
+            if (intentos >= 1) {
                 if (boton == botones[7]) {
                     JOptionPane.showMessageDialog(null, "¡Felicidades! Has ganado una compra gratis.");
                     app.mostrarVentanaPrincipal("cupon");
                     dispose();
                 } else {
+                    intentos--;
                     JOptionPane.showMessageDialog(null,
                             "Lo siento, este cupón no tiene descuento.\nTe quedan " + intentos + " intentos.");
-                    intentos--;
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Lo siento, te has quedado sin intentos.");
@@ -51,6 +51,7 @@ public class VentanaCupon extends JFrame {
                 dispose();
 
             }
+
         }
     }
 
