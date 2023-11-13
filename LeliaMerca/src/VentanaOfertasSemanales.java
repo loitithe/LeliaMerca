@@ -1,152 +1,158 @@
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class VentanaOfertasSemanales extends JFrame implements ActionListener {
 
-    private ArrayList<Producto> listaOfertas;
-    private JTextField cantidadComprar;
-    private JButton btnComprar;
-    private JButton btnCancelar;
-    private JPanel panelOfertas, panelCarrito;
-    private JLabel lblPrecio, lblTotal;
-    private JTextArea areaCesta;
-    private JScrollPane scrollPane;
-    private AplicacionUsuario app;
-    private String tipoUsuario;
-    private double totalPrecio;
+        private JLabel northLabel;
+        private JLabel southLabel;
+        private JSpinner spinner;
+        private JList<String> eastList;
+        private DefaultListModel<String> listModel;
+        private JButton addButton,deleteButton;
+        private ArrayList<JButton> buttons;
+        private JButton button_producto = new JButton();
+        private AplicacionUsuario app;
+        private JPanel centerPanel, southPanel, eastPanel,northPanel;
+        private Producto pPulsado = null;
+        private String tipoUsuario;
+        private JLabel ticketLabel;
+        private JLabel totalLabel;
 
-    public VentanaOfertasSemanales(AplicacionUsuario app, String tipoUsuario) {
-        this.app = app;
-        this.tipoUsuario = tipoUsuario;
-        // Configuración básica de la ventana
-        setTitle("Ofertas Semanales");
-        this.setSize(800, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        public VentanaOfertasSemanales(AplicacionUsuario app, String tipoUsuario) {
+                super("OFERTAS DE ESTA SEMANA");
+                this.tipoUsuario = tipoUsuario;
+                buttons = new ArrayList<>();
+                this.app = app; // referían a la app principal
+                // Configuración del JFrame
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setSize(600, 400);
+                //Panel Norte
+                northPanel = new JPanel();
+                northLabel = new JLabel();
+                northLabel.setText("Selecciona un producto, elije la cantidad y anade al carrito");
+                northPanel.add(northLabel);
+                add(northPanel,BorderLayout.NORTH);
 
-        // Panel principal
-        JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(new BorderLayout());
+                // Panel Centro
+                centerPanel = new JPanel(new GridLayout(5, 5));
+                buttons = new ArrayList<>();
+                add(centerPanel, BorderLayout.CENTER);
 
-        // Panel superior para seleccionar el tipo de cliente
-        JPanel panelTipoCliente = new JPanel();
-        JLabel labelTipoCliente = new JLabel("Cliente " + tipoUsuario);
-        panelTipoCliente.add(labelTipoCliente);
+                // Panel Sur
+                southPanel = new JPanel(new GridLayout(1, 4));
+                southLabel = new JLabel("");
+                southLabel.setForeground(Color.RED);
+                SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 100, 1);
+                spinner = new JSpinner(spinnerModel);
 
-        // Panel central para mostrar las ofertas
-        listaOfertas = new ArrayList<>();
-        generarOfertas();
+                addButton = new JButton("Añadir al carrito");
+                addButton.addActionListener(this);
 
-        panelOfertas = new JPanel(new GridLayout(listaOfertas.size(), listaOfertas.size()));
-        for (Producto producto : listaOfertas) {
-            JButton btn_producto = new JButton(producto.getNombre());
-            lblPrecio = new JLabel(producto.getDescripcion() + " : " + producto.getPrecio() + " $ /kg");
-            if (producto.getNombre().equals("manzanas")) {
-                ImageIcon icono = new ImageIcon("LeliaMerca/src/productosImg/manzanas.png");
-                btn_producto.setIcon(icono);
-            }
-            panelOfertas.add(btn_producto);
-            panelOfertas.add(lblPrecio);
-            System.out.println(producto.getImagen());
-        }
-        panelPrincipal.add(panelOfertas, BorderLayout.CENTER);
+                deleteButton = new JButton("Eliminar del carrito");
+                deleteButton.addActionListener(this);
 
-        panelCarrito = new JPanel(new GridLayout(1, 2));
-        areaCesta = new JTextArea("PEDIDO ACTUAL");
-        scrollPane = new JScrollPane(areaCesta);
-        panelCarrito.add(scrollPane);
-        
-        lblTotal = new JLabel("Total 0.00 $");
-        panelCarrito.add(lblPrecio);
-        panelPrincipal.add(panelCarrito, BorderLayout.EAST);
-        // Panel inferior para la cantidad a comprar y botones
-        JPanel panelInferior = new JPanel();
+                southPanel.add(southLabel);
+                southPanel.add(new JLabel("Cantidad:"));
+                southPanel.add(spinner);
+                southPanel.add(addButton);
+                southPanel.add(deleteButton);
+                add(southPanel, BorderLayout.SOUTH);
 
-        JLabel labelCantidad = new JLabel("Cantidad a comprar:");
-        cantidadComprar = new JTextField(5);
-        btnComprar = new JButton("Comprar");
-        btnCancelar = new JButton("Cancelar");
+                // Panel Este
+                listModel = new DefaultListModel<>();
+                eastList = new JList<>(listModel);
 
-        btnComprar.addActionListener(this);
-        btnCancelar.addActionListener(this);
+                // Panel con la lista y la etiqueta de precio total
+                eastPanel = new JPanel(new BorderLayout());
+                eastPanel.add(new JScrollPane(eastList), BorderLayout.CENTER);
 
-        panelInferior.add(labelCantidad);
-        panelInferior.add(cantidadComprar);
-        panelInferior.add(btnComprar);
-        panelInferior.add(btnCancelar);
+                // Etiqueta para mostrar el precio total
+                totalLabel = new JLabel("Precio total: $0.00");
+                eastPanel.add(totalLabel, BorderLayout.SOUTH);
 
-        panelPrincipal.add(panelTipoCliente, BorderLayout.NORTH);
-        panelPrincipal.add(panelInferior, BorderLayout.SOUTH);
+                // Etiqueta "Ticket" encima de la lista
+                ticketLabel = new JLabel("Ticket");
+                eastPanel.add(ticketLabel, BorderLayout.NORTH);
 
-        add(panelPrincipal);
-
-    }
-
-    private void generarOfertas() {
-        listaOfertas
-                .add(new Producto("Manzanas", 2.99, "Manzanas frescas de temporada.", new ImageIcon("manzanas.avif")));
-        listaOfertas.add(new Producto("Arroz Integral", 3.49, "Arroz integral de alta calidd.",
-                new ImageIcon("arroz_integral.jpg")));
-        listaOfertas.add(new Producto("Pollo Entero", 6.99, "Pollo entero fresco.", new ImageIcon("pollo_entero.jpg")));
-        listaOfertas.add(
-                new Producto("Pasta de Tomate", 1.99, "Pasta de tomate casera.", new ImageIcon("pasta_tomate.jpg")));
-        listaOfertas.add(new Producto("Leche Desnatada", 2.29, "Leche desnatada sin lactosa.",
-                new ImageIcon("leche_desnatada.jpg")));
-        listaOfertas.add(
-                new Producto("Cereal de Avena", 4.79, "Cereal de avena orgánico.", new ImageIcon("cereal_avena.jpg")));
-        listaOfertas.add(
-                new Producto("Salmon Fresco", 9.99, "Filetes de salmón fresco.", new ImageIcon("salmon_fresco.jpg")));
-        listaOfertas.add(
-                new Producto("Yogur Natural", 0.99, "Yogur natural sin azúcar.", new ImageIcon("yogur_natural.jpg")));
-        listaOfertas.add(
-                new Producto("Pan Integral", 2.49, "Pan integral recién horneado.", new ImageIcon("pan_integral.jpg")));
-        listaOfertas.add(new Producto("Aceite de Oliva", 5.99, "Aceite de oliva virgen extra.",
-                new ImageIcon("aceite_oliva.jpg")));
-        listaOfertas
-                .add(new Producto("Huevos (docena)", 2.49, "Docena de huevos frescos.", new ImageIcon("huevos.jpg")));
-        listaOfertas.add(new Producto("Cebollas", 1.29, "Cebollas orgánicas.", new ImageIcon("cebollas.jpg")));
-        listaOfertas
-                .add(new Producto("Pimiento Rojo", 1.99, "Pimiento rojo fresco.", new ImageIcon("pimiento_rojo.jpg")));
-        listaOfertas.add(new Producto("Lechuga Iceberg", 0.99, "Lechuga iceberg crujiente.",
-                new ImageIcon("lechuga_iceberg.jpg")));
-        listaOfertas.add(new Producto("Papas", 2.79, "Papas de la temporada.", new ImageIcon("papas.jpg")));
-        listaOfertas.add(new Producto("Atún enlatado", 1.49, "Atún enlatado de alta calidad.",
-                new ImageIcon("atun_enlatado.jpg")));
-        listaOfertas.add(new Producto("Galletas de Chocolate", 3.29, "Galletas de chocolate premium.",
-                new ImageIcon("galletas_chocolate.jpg")));
-        listaOfertas
-                .add(new Producto("Café Molido", 4.99, "Café molido de Colombia.", new ImageIcon("cafe_molido.jpg")));
-        listaOfertas.add(new Producto("Fresas", 2.99, "Fresas frescas de la región.", new ImageIcon("fresas.jpg")));
-        listaOfertas.add(new Producto("Mantequilla", 2.49, "Mantequilla de calidad superior.",
-                new ImageIcon("mantequilla.jpg")));
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton btn = (JButton) e.getSource();
-
-        for (Producto producto : listaOfertas) {
-            if (btn.getName() == producto.getNombre()) {
-                double precioProducto = Double.parseDouble(cantidadComprar.getText())*producto.getPrecio();
-                areaCesta.append(producto.getNombre() + "\t" + cantidadComprar + "\t" + precioProducto);
-                totalPrecio+=precioProducto;
-            }
+                // Agregar paneles al contenedor principal
+                add(eastPanel, BorderLayout.EAST);
         }
 
-        if (btn == btnComprar) {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                JButton button_pulsado = (JButton) e.getSource();
 
-        }
-        if (btn == btnCancelar) {
-            this.dispose();
-            app.mostrarVentanaPrincipal(tipoUsuario);
-        }
-    }
+                // Buscar el producto asociado al botón pulsado
+                for (Producto producto : app.listaOfertas) {
+                        if (button_pulsado == producto.getButton_producto()) {
+                                pPulsado = producto;
+                                break; // Salir del bucle si se encontró el producto
+                        }
+                }
 
+                // Verificar si se encontró el producto antes de realizar acciones
+                if (pPulsado != null) {
+                        southLabel.setText(pPulsado.getNombre());
+
+                        int quantity = (int) spinner.getValue();
+                        if (button_pulsado.equals(addButton) && quantity != 0) {
+                                pPulsado.setCantidad(quantity);
+                                descuentoCliente(tipoUsuario, pPulsado);
+                                pPulsado.setPrecioTotal(pPulsado.getPrecio() * quantity);
+                                listModel.addElement(pPulsado.toString());
+                                spinner.setValue(1);
+                                actualizarPrecioTotal(); // Actualizar la etiqueta de precio total
+                        }
+                } else {
+                        // Manejar el caso en el que no se encontró el producto asociado al botón
+                        System.out.println("Error: No se encontró un producto asociado al botón pulsado.");
+                }
+        }
+
+        public void agregarBoton(JButton button_articulo2) {
+                buttons.add(button_articulo2);
+        }
+
+        public void agregarBotonesAlCenterPanel() {
+                for (JButton button : buttons) {
+                        centerPanel.add(button);
+                }
+                revalidate(); // Actualizar el layout
+                repaint(); // Repintar la ventana
+        }
+
+        public void descuentoCliente(String tipoUsuario, Producto p) {
+                switch (tipoUsuario) {
+                        case "esporadico":
+                                System.out.println(tipoUsuario);
+                                break;
+                        case "club":
+                                System.out.println(tipoUsuario);
+                                p.setDescuento(0.03);
+                                break;
+                        case "premium":
+                                System.out.println(tipoUsuario);
+                                p.setDescuento(0.05);
+                                break;
+                        case "cupon":
+                                p.setDescuento(1);
+                                break;
+                        default:
+                                break;
+                }
+        }
+
+        private void actualizarPrecioTotal() {
+                double precioTotal = 0;
+                for (int i = 0; i < listModel.size(); i++) {
+                        String[] partes = listModel.elementAt(i).split(":");
+                        precioTotal += Double.parseDouble(partes[1].trim());
+                }
+                totalLabel.setText("Precio total: $" + String.format("%.2f", precioTotal));
+        }
 }

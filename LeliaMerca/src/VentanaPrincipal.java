@@ -107,13 +107,15 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         switch (tipoUsuario) {
             case "esporadico":
                 color_usuario = new Color(97, 120, 244);
-
                 break;
             case "premium":
                 color_usuario = new Color(220, 134, 16);
                 break;
             case "club":
                 color_usuario = new Color(243, 100, 80);
+                break;
+            case "cupon":
+                color_usuario = new Color(0, 0, 0);
                 break;
             default:
                 break;
