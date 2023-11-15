@@ -45,7 +45,7 @@ public class AplicacionUsuario {
 
         public void mostrarVentanaInicioSesion() {
                 ventanaInicioSesion = new VentanaInicioSesion(this);
-                ventanaInicioSesion.setSize(500, 500);
+                ventanaInicioSesion.setSize(600, 400);
                 ventanaInicioSesion.setVisible(true);
                 ventanaInicioSesion.setResizable(false);
                 ventanaInicioSesion.setLocationRelativeTo(null);
@@ -84,7 +84,7 @@ public class AplicacionUsuario {
         }
 
         public void mostrarVentanaVerArticulos(String nombreUsuario) {
-                ventanaArticulos = new VentanaArticulos();
+                ventanaArticulos = new VentanaArticulos(this,nombreUsuario);
                 ventanaArticulos.setSize(800, 800);
                 ventanaArticulos.setVisible(true);
                 ventanaArticulos.setResizable(false);

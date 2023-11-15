@@ -128,7 +128,7 @@ class JPanelFondo extends JPanel {
     @Override
     public void paint(Graphics g) {
         Toolkit t = Toolkit.getDefaultToolkit();
-        imagen = t.getImage("LeliaMerca\\src\\productosImg\\fondosupermarket.png");
+        imagen = t.getImage("LeliaMerca/src/productosImg/fondosupermarket.png");
         g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
         setOpaque(false);
         super.paint(g);

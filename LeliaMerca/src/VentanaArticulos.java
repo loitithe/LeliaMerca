@@ -5,9 +5,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class VentanaArticulos extends JFrame implements ActionListener {
-    private static JPanel panel_secciones, panel_opciones,panel_ofertas;
+    private static JPanel panel_secciones, panel_opciones, panel_ofertas;
     private BorderLayout bl;
     private static JComboBox cBox_conocenos, cBox_consejos, cBox_actualidad, cBox_atCliente, cBox_cuidemosPlaneta;
+
     private static String[] secciones_array = new String[] { "Platos preparados", "Despensa",
             "Mascotas",
             "Bebé",
@@ -29,15 +30,19 @@ public class VentanaArticulos extends JFrame implements ActionListener {
 
     private static String[] opcion_cuidemosPlaneta = new String[] { "Cuidemos del planeta" };
 
-    private static JButton seccion,oferta;
+    private static JButton seccion, oferta, cancelButton;
 
     private static Font fuente_principal = new Font("TimesRoman", Font.BOLD, 13);
-    
+
     private static Color color_secciones = new Color(25, 76, 25);
     private static Color color_menu = new Color(94, 199, 85);
+    private static AplicacionUsuario app;
+    private static String tipoUsuario;
 
-    public VentanaArticulos() {
+    public VentanaArticulos(AplicacionUsuario app,String tipoUsuario) {
         super("LeliaMerca");
+        this.app=app;
+        this.tipoUsuario=tipoUsuario;
         initComponents();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -52,18 +57,22 @@ public class VentanaArticulos extends JFrame implements ActionListener {
         panelOpciones();
 
         panel_ofertas = new JPanel(new GridLayout(1, 3));
+        cancelButton = new JButton("Cancelar ");
+        cancelButton.addActionListener(this);
 
+        add(cancelButton, bl.SOUTH);
         add(panel_opciones, bl.NORTH);
         add(panel_secciones, bl.WEST);
 
     }
-    public static void ofertas(){
+
+    public static void ofertas() {
         oferta = new JButton("OFERTAS SEMANALES");
         oferta = new JButton("CUPONES");
         oferta = new JButton("ARTICULOS");
 
-
     }
+
     public static void secciones(String[] secciones) {
         for (String nombre_seccion : secciones) {
             seccion = new JButton(nombre_seccion);
@@ -95,7 +104,12 @@ public class VentanaArticulos extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JButton button_pulsado = (JButton) e.getSource();
 
+        if (button_pulsado.equals(cancelButton)) {
+            app.mostrarVentanaPrincipal(tipoUsuario);
+            dispose();
+        }
     }
 
 }

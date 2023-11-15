@@ -13,11 +13,11 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
         private JSpinner spinner;
         private JList<String> eastList;
         private DefaultListModel<String> listModel;
-        private JButton addButton,deleteButton;
+        private JButton addButton, deleteButton, cancelButton;
         private ArrayList<JButton> buttons;
         private JButton button_producto = new JButton();
         private AplicacionUsuario app;
-        private JPanel centerPanel, southPanel, eastPanel,northPanel;
+        private JPanel centerPanel, southPanel, eastPanel, northPanel;
         private Producto pPulsado = null;
         private String tipoUsuario;
         private JLabel ticketLabel;
@@ -31,12 +31,12 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
                 // Configuración del JFrame
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setSize(600, 400);
-                //Panel Norte
+                // Panel Norte
                 northPanel = new JPanel();
                 northLabel = new JLabel();
                 northLabel.setText("Selecciona un producto, elije la cantidad y anade al carrito");
                 northPanel.add(northLabel);
-                add(northPanel,BorderLayout.NORTH);
+                add(northPanel, BorderLayout.NORTH);
 
                 // Panel Centro
                 centerPanel = new JPanel(new GridLayout(5, 5));
@@ -56,6 +56,10 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
                 deleteButton = new JButton("Eliminar del carrito");
                 deleteButton.addActionListener(this);
 
+                cancelButton = new JButton("Cancelar ");
+                cancelButton.addActionListener(this);
+
+                southPanel.add(cancelButton);
                 southPanel.add(southLabel);
                 southPanel.add(new JLabel("Cantidad:"));
                 southPanel.add(spinner);
@@ -87,6 +91,10 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
         public void actionPerformed(ActionEvent e) {
                 JButton button_pulsado = (JButton) e.getSource();
 
+                if (button_pulsado.equals(cancelButton)) {
+                        app.mostrarVentanaPrincipal(tipoUsuario);
+                        dispose();
+                }
                 // Buscar el producto asociado al botón pulsado
                 for (Producto producto : app.listaOfertas) {
                         if (button_pulsado == producto.getButton_producto()) {
@@ -97,7 +105,7 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
 
                 // Verificar si se encontró el producto antes de realizar acciones
                 if (pPulsado != null) {
-                        southLabel.setText(pPulsado.getNombre());
+                        southLabel.setText(pPulsado.getNombre() + pPulsado.getPrecio() + pPulsado.getDescuento());
 
                         int quantity = (int) spinner.getValue();
                         if (button_pulsado.equals(addButton) && quantity != 0) {
@@ -107,7 +115,7 @@ public class VentanaOfertasSemanales extends JFrame implements ActionListener {
                                 listModel.addElement(pPulsado.toString());
                                 spinner.setValue(1);
                                 actualizarPrecioTotal(); // Actualizar la etiqueta de precio total
-                                
+
                         }
                 } else {
                         // Manejar el caso en el que no se encontró el producto asociado al botón
