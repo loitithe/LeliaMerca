@@ -15,6 +15,17 @@ public class Producto {
     public Producto() {
     }
 
+    /**
+     * Propiedades del producto
+     * 
+     * @param nombre
+     * @param precio
+     * @param descripcion
+     * @param imagen
+     * @param cantidad
+     * @param precioTotal
+     * @param descuento
+     */
     public Producto(String nombre, double precio, String descripcion, ImageIcon imagen, int cantidad,
             double precioTotal, double descuento) {
         this.nombre = nombre;
@@ -26,58 +37,128 @@ public class Producto {
         this.descuento = descuento;
     }
 
+    /**
+     * Devuelve el nombre del producto
+     * 
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Establece el nombre del producto
+     * 
+     * @param nombre
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Devuelve el precio del producto
+     * 
+     * @return
+     */
     public double getPrecio() {
         return precio;
     }
 
+    /**
+     * Establece el precio del producto
+     * 
+     * @param precio
+     */
     public void setPrecio(double precio) {
         this.precio = precio;
     }
 
+    /**
+     * Devuelve la descripcion del producto
+     * 
+     * @return
+     */
     public String getDescripcion() {
         return descripcion;
     }
 
+    /**
+     * Establece la descripcion del producto
+     * 
+     * @param descripcion
+     */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
+    /**
+     * Devuelve la imagen del producto
+     * 
+     * @return
+     */
     public ImageIcon getImagen() {
         return imagen;
     }
 
+    /**
+     * Establece la descripcion del producto
+     * 
+     * @param imagen
+     */
     public void setImagen(ImageIcon imagen) {
         this.imagen = imagen;
     }
 
+    /**
+     * Devuelve la cantidad del producto
+     * 
+     * @return
+     */
     public int getCantidad() {
         return cantidad;
     }
 
+    /**
+     * Establece la cantidad del producto
+     * 
+     * @param cantidad
+     */
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
+    /**
+     * Devuelve el descuento del producto
+     * 
+     * @return
+     */
     public double getDescuento() {
         return descuento;
     }
 
+    /**
+     * Establece el descuento del producto
+     * 
+     * @param descuento
+     */
     public void setDescuento(double descuento) {
         this.descuento = descuento;
     }
 
+    /**
+     * Devuelve el precioTotal del producto
+     * 
+     * @return
+     */
     public double getPrecioTotal() {
         return precioTotal;
     }
 
+    /**
+     * Establece el precio total del producto
+     * 
+     * @param precioTotal
+     */
     public void setPrecioTotal(double precioTotal) {
         double precioConDescuento = precioTotal * (1 - getDescuento());
         this.precioTotal = precioConDescuento;

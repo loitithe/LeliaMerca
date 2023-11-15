@@ -30,19 +30,29 @@ public class AplicacionUsuario {
                 System.exit(1);
         }
 
+        /**
+         * 
+         * @param tipoUsuario
+         */
         public void setTipoUsuario(String tipoUsuario) {
                 this.tipoUsuario = tipoUsuario;
         }
 
+        /**
+         * 
+         * @param tipoUsuario
+         */
         public void mostrarVentanaPrincipal(String tipoUsuario) {
                 ventanaPrincipal = new VentanaPrincipal(this, tipoUsuario);
-                ventanaPrincipal.setSize(600, 500);
+                ventanaPrincipal.setSize(600, 200);
                 ventanaPrincipal.setVisible(true);
                 ventanaPrincipal.setResizable(false);
                 ventanaPrincipal.setLocationRelativeTo(null);
                 ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
-
+        /**
+         * 
+         */
         public void mostrarVentanaInicioSesion() {
                 ventanaInicioSesion = new VentanaInicioSesion(this);
                 ventanaInicioSesion.setSize(600, 400);
@@ -51,18 +61,27 @@ public class AplicacionUsuario {
                 ventanaInicioSesion.setLocationRelativeTo(null);
                 ventanaInicioSesion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
-
+        /**
+         * 
+         * @param nombreUsuario
+         */
         public void btnVerOfertasSemanales(String nombreUsuario) {
                 mostrarVentanaOfertasSemanales(nombreUsuario);
         }
-
+        /**
+         * 
+         * @param nombreUsuario
+         */
         public void btnVerCupones(String nombreUsuario) {
                 mostrarVentanaCupones(nombreUsuario);
         }
-
+        /**
+         * 
+         * @param tipoUsuario
+         */
         public void mostrarVentanaOfertasSemanales(String tipoUsuario) {
                 ventanaOfertasSemanales = new VentanaOfertasSemanales(this, tipoUsuario);
-                ventanaOfertasSemanales.setSize(1200, 800);
+                ventanaOfertasSemanales.setSize(1400, 800);
                 ventanaOfertasSemanales.setVisible(true);
                 ventanaOfertasSemanales.setResizable(false);
                 ventanaOfertasSemanales.setLocationRelativeTo(null);
@@ -77,20 +96,29 @@ public class AplicacionUsuario {
                 }
                 ventanaOfertasSemanales.agregarBotonesAlCenterPanel();
         }
-
+        /**
+         * 
+         * @param tipoUsuario
+         */
         public void mostrarVentanaCupones(String tipoUsuario) {
                 ventanaCupon = new VentanaCupon(this, tipoUsuario);
 
         }
-
+        /**
+         * 
+         * @param nombreUsuario
+         */
         public void mostrarVentanaVerArticulos(String nombreUsuario) {
-                ventanaArticulos = new VentanaArticulos(this,nombreUsuario);
+                ventanaArticulos = new VentanaArticulos(this, nombreUsuario);
                 ventanaArticulos.setSize(800, 800);
                 ventanaArticulos.setVisible(true);
                 ventanaArticulos.setResizable(false);
                 ventanaArticulos.setLocationRelativeTo(null);
         }
-
+        /**
+         * 
+         * @return
+         */
         public ArrayList<Producto> listaArticulos() {
                 listaOfertas = new ArrayList<Producto>();
                 try {
@@ -167,7 +195,10 @@ public class AplicacionUsuario {
                 return listaOfertas;
 
         }
-
+        /**
+         * 
+         * @return
+         */
         public Producto[] ofertasRandom() {
                 Random random = new Random();
                 array_productos = new Producto[10];

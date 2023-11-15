@@ -15,8 +15,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
     private JPanel contentPane, panel_opciones;
     private JLabel etiquetaMenuPrincipal;
     private JButton btnVerOfertasSemanales, btnVerCupones, btnVerArticulos, btnCancelar;
-    private GridLayout gl;
-    private BorderLayout bl;
+
     private AplicacionUsuario app;
     private String tipoUsuario;
     private Color color_usuario;
@@ -25,19 +24,15 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         this.app = app;
         this.tipoUsuario = tipoUsuario;
         colorVentana();
-        gl = new GridLayout(3, 1, 20, 20);
-        bl = new BorderLayout();
+        setFont(new Font("Arial", Font.BOLD, 22));
         setTitle("LELIAMERCA");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 500);
-        contentPane = new JPanel();
+        contentPane = new JPanel(new BorderLayout());
         contentPane.setBackground(color_usuario);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         setContentPane(contentPane);
-        bl.setVgap(20);
-        bl.setHgap(20);
-        contentPane.setLayout(bl);
 
         setLocationRelativeTo(null);
         setResizable(false);
@@ -45,9 +40,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
         etiquetaMenuPrincipal = new JLabel("Menú de usuario:");
         etiquetaMenuPrincipal.setFont(new Font("Tahoma", Font.BOLD, 16));
         etiquetaMenuPrincipal.setBounds(10, 24, 147, 14);
-        contentPane.add(etiquetaMenuPrincipal, BorderLayout.NORTH);
+        contentPane.add(etiquetaMenuPrincipal);
 
-        panel_opciones = new JPanel(gl);
+        panel_opciones = new JPanel(new GridLayout(1, 3));
 
         btnVerOfertasSemanales = new JButton("OFERTAS SEMANALES");
         btnVerOfertasSemanales.setForeground(Color.WHITE);
